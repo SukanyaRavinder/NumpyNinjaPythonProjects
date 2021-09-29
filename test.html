@@ -1,0 +1,71 @@
+<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="margin-top:2%">
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color: #fff;">Search Result</div>
+
+        <div class="panel-body">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                <div class="table-responsive">   
+                                        <table class="table table-bordered table-striped" id="dtble">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Supplier's details</th>
+                                <th>Covid Resource</th>
+                                                                <th class="distcrt">District</th>
+                                                                <th>Resource Sub-Item</th>
+                                <th>Status</th>
+                                <th>Last Updated</th>                                
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan='7'><label class='text-danger text-center'>No Records..!!</label></td></tr>                        </tbody>
+                    </table>
+                                    </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="delrespns"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#dtble').DataTable();
+    });
+
+    function editrecords(rsid_str) {
+        $("#editsupplier_popup1").modal('show');
+        $('#supplier_popupdata').html('');
+        $.ajax({
+            type: "POST",
+            url: "update-search-data",
+            data: {rsid: rsid_str},
+            success: function (resp) {
+                $('#supplier_popupdata').html(resp);
+            }
+        });
+    }
+    function IsConfirmdelete(ddd) {
+        if (confirm('Do you want to delete?') === true) {
+            //window.location.href = window.location.href + '?d=' + ddd;//$(ddd).attr('href', $(ddd).attr('vhref'));
+            $.ajax({
+                type: "POST",
+                url: "delete-form-data",
+                data: {d_id: ddd},
+                success: function (resp) {
+                    $("#delrespns").html(resp);
+                }
+            });
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+<link rel="stylesheet" href="https://covidfacts.in/assets/css/dataTables.bootstrap.min.css">
+<script src="https://covidfacts.in/assets/js/jquery.dataTables.min.js"></script>
+<script src="https://covidfacts.in/assets/js/dataTables.bootstrap.min.js"></script>
+
+<style>
+    .distcrt{display: none;}
+</style>
